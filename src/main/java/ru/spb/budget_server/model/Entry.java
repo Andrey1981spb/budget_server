@@ -1,8 +1,6 @@
 package ru.spb.budget_server.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,8 +12,9 @@ import java.time.LocalTime;
 @Document
 @TypeAlias("entry")
 @NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor
+@Builder
+@Data
 public class Entry {
     @Id
     private Integer id;
@@ -26,5 +25,5 @@ public class Entry {
 
     @Field("item_of_expenditure")
     private String itemOfExpenditure;
-    private Integer balanse;
+    private Integer balance;
 }
