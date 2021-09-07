@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
 import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 
 /**
@@ -19,13 +20,24 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @AllArgsConstructor
 public class RouterConfig {
 
-    private EntryHandler entryHandler;
-
+    /**
+     * Перенаправляет запросы соответствующим методам обработчика
+     *
+     * @param entryHandler обработчик входящих звпросов
+     * @return функция роутирга {@link RouterFunction}
+     */
     @Bean
-    public RouterFunction<ServerResponse> route(EntryHandler entryHandler) {
-        return RouterFunctions.route(GET("/entry/{id}").
+    public RouterFunction<ServerResponse> route(final EntryHandler entryHandler) {
+        return RouterFunctions.
+                route(GET("/entry/{id}").
                 and(accept(MediaType.APPLICATION_STREAM_JSON)),
-                entryHandler::findById);
+                entryHandler::findById).
+                andRoute(GET("/entries").
+                        and(accept(MediaType.APPLICATION_STREAM_JSON)),
+                        entryHandler::findAll).
+                andRoute(POST("/entry").
+                        and(accept(MediaType.APPLICATION_JSON)),
+                        entryHandler::save);
     }
 
 }

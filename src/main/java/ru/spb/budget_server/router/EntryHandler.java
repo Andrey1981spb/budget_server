@@ -23,7 +23,12 @@ public class EntryHandler {
     private EntryService entryService;
     private EntryRepository entryRepository;
 
-
+    /**
+     * Обрабатывает запрос на извлечение записи по идентификатору
+     *
+     * @param request входящий запрос на извлечение
+     * @return {@link Mono} c данными ответа на запрос
+     */
     public Mono<ServerResponse> findById(final ServerRequest request) {
         String id = request.pathVariable("id");
         return ok()
@@ -31,6 +36,29 @@ public class EntryHandler {
                 .body(entryRepository.findById(id), Entry.class);
     }
 
+    /**
+     * Обрабатывает запрос на извлечение всех записей
+     *
+     * @param request входящий запрос на извлечение
+     * @return {@link Mono} c данными ответа на запрос
+     */
+    public Mono<ServerResponse> findAll(final ServerRequest request) {
+        return ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(entryService.getAll(), Entry.class);
+    }
 
+    /**
+     * Обрабатывает запрос на сохранение записии
+     *
+     * @param request входящий запрос на сохранение
+     * @return {@link Mono} c данными ответа на запрос
+     */
+    public Mono<ServerResponse> save(final ServerRequest request) {
+        final Mono<Entry> entryMono = request.bodyToMono(Entry.class);
+        return ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(entryMono.flatMap(entryService::createEntry), Entry.class);
+    }
 
 }
