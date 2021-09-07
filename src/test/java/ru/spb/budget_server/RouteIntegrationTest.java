@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
@@ -16,7 +16,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.spb.budget_server.model.Entry;
 import ru.spb.budget_server.model.Operations;
-import ru.spb.budget_server.router.EntryHandler;
 import ru.spb.budget_server.router.RouterConfig;
 import ru.spb.budget_server.service.EntryService;
 
@@ -25,7 +24,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {RouterConfig.class, EntryHandler.class})
-@SpringBootTest(classes = TestData.class)
+//@SpringBootTest(classes = TestData.class)
+@WebFluxTest
 public class RouteIntegrationTest {
 
     @Autowired

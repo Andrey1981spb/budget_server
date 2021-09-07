@@ -9,6 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Модель сущности "Запись бюджетного учета"
+ *
+ * Author A.Dmitriev
+ */
 @Document
 @TypeAlias("entry")
 @NoArgsConstructor
